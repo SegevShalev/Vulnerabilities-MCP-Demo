@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "type": "module",
   "description": "",
-  "main": "index.js",
+  "main": "dist/src/server.js",
   "bin": {
-    "test": "./build/server.js"
+    "mcp-vuln-server": "./dist/src/server.js"
   },
   "files": [
-    "build"
+    "dist"
   ],
   "scripts": {
-    "dev": "ts-node src/server.ts",
+    "dev": "node --loader ts-node/esm src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/src/server.js"
   },
   "keywords": [],
   "author": "",
