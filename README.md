@@ -2,32 +2,37 @@
 
 This project is a local MCP (Model Context Protocol) server that exposes tools for searching and working with a vulnerability dataset
 
-The server is built using Node.js and TypeScript and is designed to run via stdio transport for integration with MCP Inspector or compatible clients.
+The server is built using Node.js and TypeScript and is designed to run via stdio transport for integration with MCP compatible clients or MCP Inspector
+
+## 🔧 Architecture
+
+load files → parse metadata → build in-memory indexes → expose MCP tools
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
 - Node.js 18+
+
 - npm or yarn
 
 #### Setup
 
 ```bash
-npm install
+npm  install
 ```
 
 ```bash
-npm build
+npm  build
 ```
 
 ```bash
-npm start
+npm  start
 ```
 
-#### 2. MCP JSON Config
+#### MCP JSON Config
 
-Add the following configuration to your MCP client (e.g. Cursor / MCP Inspector):
+Add the following configuration to your MCP client configuration
 
 ```json
 {
@@ -48,17 +53,37 @@ Add the following configuration to your MCP client (e.g. Cursor / MCP Inspector)
 
 Might need to restart your MCP client and allowing it to use tools.
 
+#### Agent Layer
+
+Or you can also use CLI agent, using Llama model
+
+```bash
+cd  agent
+```
+
+```bash
+npm  install
+```
+
+```bash
+npm  build
+```
+
+```bash
+npm  start
+```
+
 ## 🧰 MCP Tools
 
 This server exposes a vulnerability registry through the Model Context Protocol.
 
-Tools are designed to be used both directly (via MCP Inspector) and naturally via LLM interaction.
+Tools are designed to be used both directly and naturally via LLM interaction.
 
 ---
 
 ### 1. `ping`
 
-Health check tool.
+MCP server Health check tool.
 
 **Returns:**
 
@@ -73,12 +98,15 @@ Returns all vendors in the registry.
 **Supports optional filtering:**
 
 - by name
+
 - by category
 
 **Example usage (natural language):**
 
 - "list all vendors"
+
 - "show me open source vendors"
+
 - "find vendors with 'Microsoft' in the name"
 
 ---
@@ -90,16 +118,23 @@ Search vulnerabilities using flexible filters.
 Supports:
 
 - keyword search (CVE ID, title, affected versions)
+
 - severity filter (critical / high / medium / low)
+
 - status filter (open / patched)
+
 - vendor filtering (by ID or name)
+
 - CVSS score range
+
 - publication date range
 
 **Example usage:**
 
 - "show high severity vulnerabilities in Apache"
+
 - "find CVEs related to SQL injection"
+
 - "list open vulnerabilities with CVSS above 8"
 
 ---
@@ -111,6 +146,7 @@ Fetch full details for a specific CVE ID.
 **Example usage:**
 
 - "get details for CVE-2021-44228"
+
 - "what is CVE-2023-xxxx?"
 
 ---
@@ -122,18 +158,22 @@ Returns aggregated insights about the dataset.
 Includes:
 
 - total vulnerabilities
+
 - breakdown by severity
+
 - breakdown by status
+
 - per-vendor summary (open / critical counts)
 
 **Example usage:**
 
 - "show vulnerability statistics"
+
 - "give me a security overview of the dataset"
 
 ## ⚙️ Design Decisions
 
-### 1. MCP-first tool design
+### 1. MCP standalone tool design
 
 Each capability is implemented as a standalone MCP tool, aligning with the MCP model of:
 
@@ -143,14 +183,18 @@ This naturally maps to a **command-style architecture**, where each tool represe
 
 ---
 
-### 2. Minimal architecture (time-driven decision)
+### 2. Minimal architecture
 
 The project uses a simple one time in-memory dataset loaded at startup.
 
 This decision prioritizes:
 
-- fast development
+- reduces repeated disk I/O
+
+- keeps tool latency predictable as the dataset grows
+
 - predictable behavior in MCP Inspector
+
 - easy debugging
 
 ---
@@ -160,18 +204,12 @@ This decision prioritizes:
 The server is stateless:
 
 - data is loaded at startup
+
 - no runtime mutation persistence
+
 - no external dependencies
 
 This makes execution deterministic and safe for LLM tool use.
-
----
-
-### 4. Natural language compatibility
-
-Although tools use strict schemas internally, they are designed to be triggered through natural language via Claude / MCP clients.
-
-This is why tool descriptions emphasize intent rather than strict API contracts.
 
 ---
 
