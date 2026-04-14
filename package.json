@@ -1,0 +1,29 @@
+{
+  "name": "mcp-vuln-server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "dist/src/server.js",
+  "bin": {
+    "mcp-vuln-server": "./dist/src/server.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "node --loader ts-node/esm src/server.ts",
+    "build": "tsc",
+    "start": "node dist/src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
+  }
+}
