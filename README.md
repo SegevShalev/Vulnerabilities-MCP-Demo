@@ -213,12 +213,4 @@ This makes execution deterministic and safe for LLM tool use.
 
 ---
 
-The current implementation focuses on clarity and a minimal, working MCP integration. Given more time, I would evolve it in a few natural directions that reflect production-grade design decisions.
-
-First, I would further refine the project structure beyond the current separation of store, tools, and utils. This separation will improve maintainability and clarity, Given the time constraints and the decision to work with MCP Inspector for faster iteration, the current structure was chosen as a pragmatic balance between simplicity and organization.
-
-On the data layer, I would add hot-reload support for the database files, allowing the MCP server to detect changes in the underlying .db files without requiring a full restart. This would make the system more suitable for real-time analyst workflows.
-
-On the tool design side, I would expand the current set of tools with higher-level analytical capabilities, such as a security overview tool that aggregates vulnerability data across vendors and provides a system-wide risk snapshot. In addition, I would consider adding a capability discovery tool, allowing the LLM to understand what types of questions it can ask the system and how to best interact with it.
-
 Overall, these improvements represent natural extensions of the current design rather than changes to its core approach, which intentionally prioritizes simplicity and correctness within the given time constraints.
