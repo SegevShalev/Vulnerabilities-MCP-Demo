@@ -212,5 +212,3 @@ The server is stateless:
 This makes execution deterministic and safe for LLM tool use.
 
 ---
-
-Overall, these improvements represent natural extensions of the current design rather than changes to its core approach, which intentionally prioritizes simplicity and correctness within the given time constraints.
